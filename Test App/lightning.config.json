@@ -1,0 +1,25 @@
+{
+  "name": "Notes",
+  "version": "1.0.0",
+  "entry": "index.html",
+  "window": {
+    "width": 1100,
+    "height": 740,
+    "minWidth": 700,
+    "minHeight": 500,
+    "title": "Notes",
+    "titleBarStyle": "hiddenInset"
+  },
+  "bundle": {
+    "icon": "Icon/icon.png"
+  },
+  "pwa": {
+    "themeColor": "#1C1C1E",
+    "backgroundColor": "#1C1C1E",
+    "statusBarStyle": "black-translucent",
+    "startUrl": "/",
+    "scope": "/",
+    "orientation": "any",
+    "categories": ["productivity", "utilities"]
+  }
+}

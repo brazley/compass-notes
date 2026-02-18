@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningApp.build/master.swiftdeps"
+  },
+  "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/Sources/App.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningApp.build/App.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningApp.build/App.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningApp.build/App~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningApp.build/App.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningApp.build/App.dia"
+  }
+}

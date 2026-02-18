@@ -1,0 +1,145 @@
+{
+  "": {
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/master.swiftdeps"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Commands/BuildCommand.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/BuildCommand.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/BuildCommand.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/BuildCommand~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/BuildCommand.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/BuildCommand.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Commands/CreateCommand.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/CreateCommand.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/CreateCommand.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/CreateCommand~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/CreateCommand.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/CreateCommand.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Commands/DevCommand.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevCommand.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevCommand.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevCommand~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevCommand.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevCommand.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Commands/InitCommand.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InitCommand.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InitCommand.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InitCommand~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InitCommand.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InitCommand.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Commands/PwaCommand.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaCommand.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaCommand.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaCommand~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaCommand.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaCommand.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Commands/RunCommand.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RunCommand.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RunCommand.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RunCommand~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RunCommand.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RunCommand.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/AppBundleAssembler.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/AppBundleAssembler.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/AppBundleAssembler.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/AppBundleAssembler~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/AppBundleAssembler.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/AppBundleAssembler.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/DevServerScript.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevServerScript.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevServerScript.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevServerScript~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevServerScript.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/DevServerScript.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/EntitlementsGenerator.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/EntitlementsGenerator.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/EntitlementsGenerator.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/EntitlementsGenerator~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/EntitlementsGenerator.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/EntitlementsGenerator.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/IconGenerator.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/IconGenerator.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/IconGenerator.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/IconGenerator~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/IconGenerator.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/IconGenerator.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/InfoPlistGenerator.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InfoPlistGenerator.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InfoPlistGenerator.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InfoPlistGenerator~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InfoPlistGenerator.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/InfoPlistGenerator.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/LightningSDKScript.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningSDKScript.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningSDKScript.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningSDKScript~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningSDKScript.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningSDKScript.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/LightningUIScript.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningUIScript.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningUIScript.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningUIScript~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningUIScript.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/LightningUIScript.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/PwaGenerator.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaGenerator.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaGenerator.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaGenerator~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaGenerator.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/PwaGenerator.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/RuntimeAppGenerator.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RuntimeAppGenerator.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RuntimeAppGenerator.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RuntimeAppGenerator~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RuntimeAppGenerator.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/RuntimeAppGenerator.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Generator/ServiceWorkerScript.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ServiceWorkerScript.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ServiceWorkerScript.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ServiceWorkerScript~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ServiceWorkerScript.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ServiceWorkerScript.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Lightning.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/Lightning.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/Lightning.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/Lightning~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/Lightning.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/Lightning.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Utilities/ANSIColors.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ANSIColors.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ANSIColors.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ANSIColors~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ANSIColors.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ANSIColors.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Utilities/ProjectDetector.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ProjectDetector.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ProjectDetector.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ProjectDetector~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ProjectDetector.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ProjectDetector.dia"
+  },
+  "/Users/quikolas/github/Compass/Lightning/Sources/LightningCLI/Utilities/ShellRunner.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ShellRunner.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ShellRunner.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ShellRunner~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ShellRunner.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/LightningCLI.build/ShellRunner.dia"
+  }
+}

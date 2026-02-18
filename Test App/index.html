@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Notes</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sidebar-bg: #2C2C2E;
+      --sidebar-border: rgba(255,255,255,0.06);
+      --sidebar-width: 260px;
+      --item-hover: rgba(255,255,255,0.05);
+      --item-active: rgba(255,214,10,0.15);
+      --item-active-border: #FFD60A;
+      --editor-bg: #1C1C1E;
+      --text-primary: #F2F2F7;
+      --text-secondary: #8E8E93;
+      --text-tertiary: #636366;
+      --accent: #FFD60A;
+      --border: rgba(255,255,255,0.08);
+      --toolbar-bg: rgba(28,28,30,0.92);
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    /* Light — system preference (no manual override) */
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme]) {
+        --sidebar-bg: #F2F2F7;
+        --sidebar-border: rgba(0,0,0,0.06);
+        --item-hover: rgba(0,0,0,0.04);
+        --item-active: rgba(255,214,10,0.25);
+        --editor-bg: #FFFFFF;
+        --text-primary: #1C1C1E;
+        --text-secondary: #6C6C70;
+        --text-tertiary: #AEAEB2;
+        --accent: #D4A017;
+        --border: rgba(0,0,0,0.08);
+        --toolbar-bg: rgba(242,242,247,0.95);
+      }
+    }
+
+    /* Light — manual override */
+    :root[data-theme="light"] {
+      --sidebar-bg: #F2F2F7;
+      --sidebar-border: rgba(0,0,0,0.06);
+      --item-hover: rgba(0,0,0,0.04);
+      --item-active: rgba(255,214,10,0.25);
+      --editor-bg: #FFFFFF;
+      --text-primary: #1C1C1E;
+      --text-secondary: #6C6C70;
+      --text-tertiary: #AEAEB2;
+      --accent: #D4A017;
+      --border: rgba(0,0,0,0.08);
+      --toolbar-bg: rgba(242,242,247,0.95);
+    }
+
+    /* Dark — manual override */
+    :root[data-theme="dark"] {
+      --sidebar-bg: #2C2C2E;
+      --sidebar-border: rgba(255,255,255,0.06);
+      --item-hover: rgba(255,255,255,0.05);
+      --item-active: rgba(255,214,10,0.15);
+      --editor-bg: #1C1C1E;
+      --text-primary: #F2F2F7;
+      --text-secondary: #8E8E93;
+      --text-tertiary: #636366;
+      --accent: #FFD60A;
+      --border: rgba(255,255,255,0.08);
+      --toolbar-bg: rgba(28,28,30,0.92);
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--sidebar-bg);
+      color: var(--text-primary);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      overscroll-behavior: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* Full-bleed background — fills below #app into the physical bottom edge */
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: env(safe-area-inset-bottom, 34px);
+      background: var(--sidebar-bg);
+      z-index: 0;
+      pointer-events: none;
+      transition: background 0.2s;
+    }
+
+    /* ── Layout ── */
+    #app {
+      display: flex;
+      height: 100dvh;
+      overflow: hidden;
+      position: relative;
+      background: var(--sidebar-bg);
+    }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-width);
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #sidebar-header {
+      padding: 16px 14px 10px;
+      -webkit-app-region: drag;
+      padding-top: calc(16px + var(--safe-top));
+    }
+
+    #sidebar-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    #sidebar-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    #theme-btn, #lock-btn {
+      background: rgba(118,118,128,0.12);
+      border: none;
+      border-radius: 8px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.15s;
+      -webkit-app-region: no-drag;
+      flex-shrink: 0;
+    }
+
+    #theme-btn:active, #lock-btn:active { background: rgba(118,118,128,0.22); }
+
+    #search-wrap {
+      position: relative;
+      -webkit-app-region: no-drag;
+    }
+
+    #search {
+      width: 100%;
+      background: rgba(118,118,128,0.12);
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px 6px 30px;
+      font-size: 16px; /* prevent iOS zoom */
+      color: var(--text-primary);
+      outline: none;
+      font-family: var(--font);
+    }
+
+    #search::placeholder { color: var(--text-tertiary); }
+
+    #search-icon {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      pointer-events: none;
+      font-size: 13px;
+    }
+
+    #note-list {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 4px 0 calc(80px + var(--safe-bottom));
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      background: var(--sidebar-bg);
+      min-height: 0;
+    }
+
+    #note-list::-webkit-scrollbar { display: none; }
+
+    .note-swipe-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .note-swipe-action {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      display: flex;
+      align-items: stretch;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .note-swipe-wrap.is-open .note-swipe-action {
+      pointer-events: auto;
+    }
+
+    .note-swipe-delete {
+      flex: 1;
+      background: #FF3B30;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .note-swipe-delete:active { background: #D63029; }
+
+    .note-item {
+      padding: 12px 14px;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      background: var(--sidebar-bg);
+      transition: background 0.1s, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      -webkit-app-region: no-drag;
+      min-height: 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .note-item.swiped { transform: translateX(-80px); }
+
+    .note-item:hover { background: var(--item-hover); }
+    .note-item:active { background: var(--item-hover); }
+
+    .note-item.active {
+      background: var(--item-active);
+      border-left-color: var(--item-active-border);
+    }
+
+    .note-item-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+
+    .note-item-meta {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-bottom: 3px;
+    }
+
+    .note-item-preview {
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .empty-list {
+      padding: 48px 20px;
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    #sidebar-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 14px;
+      padding-bottom: calc(12px + var(--safe-bottom));
+      background: transparent;
+      -webkit-app-region: no-drag;
+      z-index: 10;
+    }
+
+    #new-note-btn {
+      width: 100%;
+      border-radius: 14px;
+      padding: 11px 0;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: opacity 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+    }
+
+    #new-note-btn:active { opacity: 0.7; }
+
+    /* ── Editor Pane ── */
+    #editor-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--editor-bg);
+      overflow: hidden;
+    }
+
+    #editor-toolbar {
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      background: var(--toolbar-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      -webkit-app-region: drag;
+      height: calc(44px + var(--safe-top));
+      padding-top: var(--safe-top);
+      flex-shrink: 0;
+    }
+
+    #editor-toolbar.hidden { display: none; }
+
+    #back-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 8px 8px 8px 2px;
+      border-radius: 6px;
+      font-family: var(--font);
+      align-items: center;
+      gap: 2px;
+      min-width: 44px;
+      min-height: 44px;
+      -webkit-app-region: no-drag;
+    }
+
+    #back-btn:active { opacity: 0.6; }
+
+    #mic-btn { color: var(--text-secondary); }
+    #mic-btn.recording {
+      color: #FF453A;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.6; transform: scale(0.88); }
+    }
+
+    .toolbar-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.1s, color 0.1s;
+      -webkit-app-region: no-drag;
+      flex-shrink: 0;
+    }
+
+    .toolbar-btn:active { background: var(--item-hover); }
+
+    @media (hover: hover) {
+      .toolbar-btn:hover { background: var(--item-hover); color: var(--text-primary); }
+      .toolbar-btn.danger:hover { color: #FF453A; }
+      #new-note-btn:hover { opacity: 0.88; }
+    }
+
+    #save-indicator {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-right: auto;
+      -webkit-app-region: no-drag;
+    }
+
+    #editor-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 24px 40px;
+      padding-bottom: calc(40px + var(--safe-bottom));
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    #editor-scroll::-webkit-scrollbar { width: 4px; }
+    #editor-scroll::-webkit-scrollbar-track { background: transparent; }
+    #editor-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    #editor {
+      max-width: 680px;
+      margin: 0 auto;
+      min-height: 100%;
+      outline: none;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      user-select: text;
+      -webkit-user-select: text;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    #editor:empty::before {
+      content: attr(data-placeholder);
+      color: var(--text-tertiary);
+      pointer-events: none;
+    }
+
+    #note-title {
+      max-width: 680px;
+      margin: 0 auto 4px;
+      outline: none;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-primary);
+      user-select: text;
+      -webkit-user-select: text;
+      white-space: pre-wrap;
+      word-break: break-word;
+      letter-spacing: -0.3px;
+    }
+
+    #note-title:empty::before {
+      content: attr(data-placeholder);
+      color: var(--text-tertiary);
+      pointer-events: none;
+    }
+
+    /* ── Empty state ── */
+    #empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-tertiary);
+      gap: 10px;
+      -webkit-app-region: drag;
+    }
+
+    #empty-state .icon { font-size: 52px; opacity: 0.25; }
+    #empty-state .label { font-size: 15px; }
+
+    /* ── Lightning APIs demo panel ── */
+    #lightning-demo {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      -webkit-app-region: no-drag;
+    }
+
+    #lightning-demo-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+
+    #lightning-demo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      max-width: 240px;
+    }
+
+    .demo-btn {
+      background: rgba(118,118,128,0.10);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+      font-family: var(--font);
+      flex-shrink: 0;
+      -webkit-app-region: no-drag;
+    }
+
+    .demo-btn:active {
+      background: rgba(118,118,128,0.22);
+    }
+
+    .demo-btn.active-state {
+      background: rgba(255,214,10,0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @media (hover: hover) {
+      .demo-btn:hover {
+        background: rgba(118,118,128,0.18);
+        color: var(--text-primary);
+      }
+      .demo-btn.active-state:hover {
+        background: rgba(255,214,10,0.22);
+      }
+    }
+
+    #lightning-demo-status {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      min-height: 18px;
+      text-align: center;
+      transition: color 0.2s;
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #lightning-demo-status.ok  { color: var(--text-secondary); }
+    #lightning-demo-status.err { color: #FF453A; }
+
+    /* ── Tap highlight off ── */
+    *, button, input {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ══════════════════════════════════════════
+       MOBILE — full-screen sliding panels
+    ══════════════════════════════════════════ */
+    @media (max-width: 680px) {
+      #app {
+        display: block;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #sidebar {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        min-width: 100%;
+        z-index: 2;
+        transform: translateX(0);
+        transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        padding-left: var(--safe-left);
+        padding-right: var(--safe-right);
+      }
+
+      #sidebar-header {
+        padding-top: calc(20px + var(--safe-top));
+      }
+
+      #sidebar-title-row {
+        margin-bottom: 14px;
+        align-items: flex-end;
+      }
+
+      #sidebar-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-primary);
+        text-transform: none;
+        letter-spacing: -0.3px;
+      }
+
+      #theme-btn, #lock-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 17px;
+      }
+
+      #search {
+        font-size: 16px;
+        padding: 8px 12px 8px 34px;
+        border-radius: 10px;
+      }
+
+      #sidebar.slide-out {
+        transform: translateX(-100%);
+      }
+
+      #editor-pane {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        z-index: 3;
+        transform: translateX(100%);
+        transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        background: var(--editor-bg);
+      }
+
+      #editor-pane.slide-in {
+        transform: translateX(0);
+      }
+
+      #editor-toolbar {
+        height: calc(52px + var(--safe-top));
+        padding-top: calc(4px + var(--safe-top));
+        -webkit-app-region: no-drag;
+      }
+
+      #back-btn {
+        display: flex;
+      }
+
+      #editor-scroll {
+        padding: 20px 20px;
+        padding-bottom: calc(32px + var(--safe-bottom));
+      }
+
+      #editor {
+        font-size: 16px;
+        line-height: 1.75;
+      }
+
+      #note-title {
+        font-size: 24px;
+      }
+
+      .note-item {
+        min-height: 72px;
+        padding: 14px 16px;
+      }
+
+      .note-item-title {
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .note-item-preview {
+        font-size: 13px;
+      }
+
+      #empty-state {
+        -webkit-app-region: no-drag;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div id="sidebar-header">
+        <div id="sidebar-title-row">
+          <div id="sidebar-title">Notes</div>
+          <button id="lock-btn" title="Lock/Unlock with Face ID" style="display:none">🔐</button>
+          <button id="theme-btn" title="Toggle light/dark mode">🌙</button>
+        </div>
+        <div id="search-wrap">
+          <span id="search-icon">⌕</span>
+          <input id="search" type="search" placeholder="Search" autocomplete="off" spellcheck="false" inputmode="search">
+        </div>
+      </div>
+
+      <div id="note-list"></div>
+
+      <div id="sidebar-footer">
+        <button id="new-note-btn" class="lg-glass">
+          <span style="font-size:18px;line-height:1">+</span> New Note
+        </button>
+      </div>
+    </aside>
+
+    <main id="editor-pane">
+      <div id="editor-toolbar" class="hidden">
+        <button id="back-btn">‹ Notes</button>
+        <span id="save-indicator"></span>
+        <button class="toolbar-btn" id="mic-btn" title="Dictate">🎤</button>
+        <button class="toolbar-btn danger" id="delete-btn" title="Delete note">🗑</button>
+      </div>
+      <div id="empty-state">
+        <div class="icon">📝</div>
+        <div class="label">Select a note or create one</div>
+        <div id="lightning-demo">
+          <div id="lightning-demo-label">⚡ Lightning APIs</div>
+          <div id="lightning-demo-grid">
+            <button class="demo-btn" id="demo-share"     title="Share">📤</button>
+            <button class="demo-btn" id="demo-clipboard" title="Copy to clipboard">📋</button>
+            <button class="demo-btn" id="demo-wake"      title="Toggle wake lock">💡</button>
+            <button class="demo-btn" id="demo-speak"     title="Speak note text">🔊</button>
+            <button class="demo-btn" id="demo-location"  title="Get location">📍</button>
+          </div>
+          <div id="lightning-demo-status"></div>
+        </div>
+      </div>
+      <div id="editor-scroll" style="display:none">
+        <div id="note-title" contenteditable="true" spellcheck="false" data-placeholder="Title"></div>
+        <div id="editor" contenteditable="true" spellcheck="true" data-placeholder="Start writing..."></div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ── Data Layer (window.lightning.data) ────────────────────────────────────
+    const notes = window.lightning.data.collection('notes');
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    let currentId  = null;
+    let saveTimer  = null;
+    let allNotes   = [];
+    let sessionKey = null; // CryptoKey | null — set after Face ID auth, cleared on lock
+    const decryptedCache = new Map(); // id → { title: string, body: string }
+    const isMobile = () => window.innerWidth <= 680;
+
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+    const sidebar      = document.getElementById('sidebar');
+    const editorPane   = document.getElementById('editor-pane');
+    const noteList     = document.getElementById('note-list');
+    const editor       = document.getElementById('editor');
+    const editorScroll = document.getElementById('editor-scroll');
+    const emptyState   = document.getElementById('empty-state');
+    const toolbar      = document.getElementById('editor-toolbar');
+    const saveIndicator= document.getElementById('save-indicator');
+    const searchInput  = document.getElementById('search');
+    const newNoteBtn   = document.getElementById('new-note-btn');
+    const deleteBtn    = document.getElementById('delete-btn');
+    const backBtn      = document.getElementById('back-btn');
+    const lockBtn      = document.getElementById('lock-btn');
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function noteTitle(note) {
+      return (note.title || '').trim() || 'Untitled';
+    }
+
+    function notePreview(note) {
+      const lines = (note.body || '').split('\n').filter(l => l.trim());
+      return lines.slice(0, 2).join(' ') || '';
+    }
+
+    function formatDate(ts) {
+      const d = new Date(ts), now = new Date(), diff = now - d;
+      if (diff < 60000) return 'Just now';
+      if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+      if (d.toDateString() === now.toDateString())
+        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const yest = new Date(now); yest.setDate(now.getDate() - 1);
+      if (d.toDateString() === yest.toDateString()) return 'Yesterday';
+      return d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    }
+
+    function escHtml(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // ── Render list ───────────────────────────────────────────────────────────
+    function renderList(list) {
+      const q = searchInput.value.toLowerCase();
+      const pool = q ? list.filter(n => ((n.title||'') + ' ' + (n.body||'')).toLowerCase().includes(q)) : list;
+
+      if (!pool.length) {
+        noteList.innerHTML = `<div class="empty-list">${q ? 'No results.' : 'No notes yet.<br>Tap New Note to start.'}</div>`;
+        return;
+      }
+
+      const sorted = [...pool].sort((a, b) => b.updatedAt - a.updatedAt);
+      noteList.innerHTML = sorted.map(n => {
+        const isLocked = n.locked && !sessionKey;
+
+        let displayTitle, displayPreview;
+        if (isLocked) {
+          displayTitle   = '🔒 Locked Note';
+          displayPreview = '••••••••••';
+        } else if (n.locked && sessionKey) {
+          // Unlocked session — prefer decryptedCache (freshly opened), fall back to persisted plainTitle
+          const cached = decryptedCache.get(n.id);
+          displayTitle   = escHtml(cached ? (cached.title   || 'Untitled')  : (n.plainTitle   || 'Untitled'));
+          displayPreview = escHtml(cached ? (cached.body ? cached.body.split('\n').find(l => l.trim()) || '' : '') : (n.plainPreview || ''));
+        } else {
+          // Normal unlocked note
+          displayTitle   = escHtml(noteTitle(n));
+          displayPreview = escHtml(notePreview(n));
+        }
+        return `
+        <div class="note-swipe-wrap" data-id="${n.id}">
+          <div class="note-swipe-action">
+            <button class="note-swipe-delete">Delete</button>
+          </div>
+          <div class="note-item${n.id === currentId ? ' active' : ''}" data-id="${n.id}">
+            <div class="note-item-title">${displayTitle}</div>
+            <div class="note-item-meta">${formatDate(n.updatedAt)}</div>
+            <div class="note-item-preview">${displayPreview}</div>
+          </div>
+        </div>
+        `;
+      }).join('');
+
+      noteList.querySelectorAll('.note-item').forEach(el =>
+        el.addEventListener('click', () => openNote(el.dataset.id))
+      );
+    }
+
+    // ── Navigation ────────────────────────────────────────────────────────────
+    function showEditorPanel() {
+      emptyState.style.display = 'none';
+      editorScroll.style.display = 'block';
+      toolbar.classList.remove('hidden');
+      if (isMobile()) {
+        sidebar.classList.add('slide-out');
+        editorPane.classList.add('slide-in');
+      }
+    }
+
+    function showListPanel() {
+      if (isMobile()) {
+        saveCurrentNote();
+        sidebar.classList.remove('slide-out');
+        editorPane.classList.remove('slide-in');
+      } else {
+        emptyState.style.display = 'flex';
+        editorScroll.style.display = 'none';
+        toolbar.classList.add('hidden');
+      }
+      currentId = null;
+      document.getElementById('note-title').innerText = '';
+      editor.innerText = '';
+    }
+
+    // ── Open note ─────────────────────────────────────────────────────────────
+    async function openNote(id) {
+      currentId = id;
+      const note = await notes.findById(id);
+      if (!note) return;
+
+      if (note.locked && !sessionKey) {
+        const { verified, key } = await window.lightning.auth.verify();
+        if (!verified) return;
+        sessionKey = key;
+        lockBtn.textContent = key ? '🔓' : '✓';
+      }
+
+      let displayTitle = '';
+      let displayBody = '';
+
+      if (note.locked && sessionKey) {
+        try {
+          displayTitle = note.title ? await window.lightning.auth.decrypt(note.title, sessionKey) : '';
+          displayBody  = note.body  ? await window.lightning.auth.decrypt(note.body,  sessionKey) : '';
+          decryptedCache.set(id, { title: displayTitle, body: displayBody });
+          // Patch plainTitle/plainPreview in allNotes so list reflects decrypted content immediately
+          allNotes = allNotes.map(n => n.id === id
+            ? { ...n, plainTitle: displayTitle, plainPreview: displayBody.split('\n').find(l => l.trim()) || '' }
+            : n
+          );
+        } catch(e) {
+          displayTitle = '';
+          displayBody  = '[Could not decrypt — Face ID required]';
+        }
+      } else if (!note.locked) {
+        displayTitle = note.title || '';
+        displayBody  = note.body  || '';
+      }
+
+      document.getElementById('note-title').innerText = displayTitle;
+      editor.innerText = displayBody;
+      showEditorPanel();
+      renderList(allNotes);
+
+      // Focus + cursor to end (delay on mobile to avoid layout jump)
+      setTimeout(() => {
+        const titleEl = document.getElementById('note-title');
+        titleEl.focus();
+        const range = document.createRange();
+        range.selectNodeContents(titleEl);
+        range.collapse(false);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }, isMobile() ? 350 : 0);
+    }
+
+    // ── Auto-save ─────────────────────────────────────────────────────────────
+    function scheduleSave() {
+      saveIndicator.textContent = 'Editing…';
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveCurrentNote, 800);
+    }
+
+    async function saveCurrentNote() {
+      if (!currentId) return;
+      const title = (document.getElementById('note-title').innerText || '').trim();
+      const body = editor.innerText || '';
+
+      const note = allNotes.find(n => n.id === currentId);
+      const isLocked = note && note.locked;
+
+      let updates;
+      if (isLocked && sessionKey) {
+        const encryptedBody = await window.lightning.auth.encrypt(body, sessionKey);
+        const encryptedTitle = await window.lightning.auth.encrypt(title || 'Locked Note', sessionKey);
+        const plainPreview   = body.split('\n').find(l => l.trim()) || '';
+        updates = {
+          title: encryptedTitle,
+          body: encryptedBody,
+          plainTitle: title || 'Locked Note',
+          plainPreview: plainPreview,
+          locked: true,
+          updatedAt: Date.now()
+        };
+      } else {
+        updates = { title, body, locked: !!sessionKey, updatedAt: Date.now() };
+      }
+
+      await notes.update(currentId, updates);
+      allNotes = allNotes.map(n => n.id === currentId ? { ...n, ...updates } : n);
+      renderList(allNotes);
+      saveIndicator.textContent = 'Saved';
+      setTimeout(() => { if (saveIndicator.textContent === 'Saved') saveIndicator.textContent = ''; }, 1500);
+    }
+
+    // ── New note ──────────────────────────────────────────────────────────────
+    async function createNote() {
+      const note = await notes.insert({ title: '', body: '', locked: !!sessionKey, updatedAt: Date.now() });
+      allNotes.push(note);
+      renderList(allNotes);
+      await openNote(note.id);
+    }
+
+    // ── Delete note ───────────────────────────────────────────────────────────
+    async function removeCurrentNote() {
+      if (!currentId) return;
+      if (deleteBtn.dataset.confirming) {
+        await notes.delete(currentId);
+        allNotes = allNotes.filter(n => n.id !== currentId);
+        showListPanel();
+        renderList(allNotes);
+        delete deleteBtn.dataset.confirming;
+        deleteBtn.textContent = '🗑';
+      } else {
+        deleteBtn.dataset.confirming = '1';
+        deleteBtn.textContent = '✓?';
+        deleteBtn.style.color = '#FF453A';
+        setTimeout(() => {
+          delete deleteBtn.dataset.confirming;
+          deleteBtn.textContent = '🗑';
+          deleteBtn.style.color = '';
+        }, 2500);
+      }
+    }
+
+    // ── Swipe-to-delete ───────────────────────────────────────────────────────
+    (function() {
+      const THRESHOLD = 40;
+      const ACTION_W  = 80;
+      let activeWrap = null;
+
+      function closeActive(except) {
+        if (activeWrap && activeWrap !== except) {
+          const inner  = activeWrap.querySelector('.note-item');
+          const action = activeWrap.querySelector('.note-swipe-action');
+          if (inner)  { inner.style.willChange = ''; inner.classList.remove('swiped'); }
+          if (action) { action.style.transition = ''; action.style.opacity = '0'; }
+          activeWrap.classList.remove('is-open');
+          activeWrap = null;
+        }
+      }
+
+      // Delete tap — delegated
+      noteList.addEventListener('click', async e => {
+        const btn = e.target.closest('.note-swipe-delete');
+        if (!btn) return;
+        e.stopPropagation();
+        const wrap = btn.closest('.note-swipe-wrap');
+        const id = wrap?.dataset.id;
+        if (!id) return;
+        wrap.style.transition = 'max-height 0.26s ease, opacity 0.26s ease';
+        wrap.style.overflow = 'hidden';
+        wrap.style.maxHeight = wrap.offsetHeight + 'px';
+        requestAnimationFrame(() => { wrap.style.maxHeight = '0'; wrap.style.opacity = '0'; });
+        setTimeout(async () => {
+          await notes.delete(id);
+          allNotes = allNotes.filter(n => n.id !== id);
+          if (currentId === id) {
+            currentId = null;
+            if (!isMobile()) {
+              emptyState.style.display = 'flex';
+              editorScroll.style.display = 'none';
+              toolbar.classList.add('hidden');
+            }
+          }
+          renderList(allNotes);
+        }, 250);
+      });
+
+      // Touch swipe
+      let startX = 0, startY = 0, dragging = false;
+      let tgt = null, inner = null, action = null, wrap = null, startedOpen = false;
+
+      noteList.addEventListener('touchstart', e => {
+        const touch = e.touches[0];
+        startX = touch.clientX; startY = touch.clientY; dragging = false;
+        tgt = e.target.closest('.note-swipe-wrap');
+        // If touch lands outside any swipe row, close the open one
+        if (!tgt) { closeActive(null); return; }
+        inner  = tgt.querySelector('.note-item');
+        action = tgt.querySelector('.note-swipe-action');
+        wrap   = tgt;
+        startedOpen = inner.classList.contains('swiped');
+      }, { passive: true });
+
+      noteList.addEventListener('touchmove', e => {
+        if (!tgt) return;
+        const touch = e.touches[0];
+        const dx = touch.clientX - startX;
+        const dy = touch.clientY - startY;
+        if (!dragging && Math.abs(dy) > Math.abs(dx) + 5) { tgt = null; return; }
+        if (!dragging && Math.abs(dx) > 8) {
+          dragging = true;
+          closeActive(wrap);
+          wrap.classList.add('is-open');
+          inner.style.willChange = 'transform';  // GPU only during drag
+          inner.style.transition = 'none';
+          if (action) action.style.transition = 'none';
+        }
+        if (!dragging) return;
+        e.preventDefault();
+        const base = startedOpen ? -ACTION_W : 0;
+        const currentTranslateX = Math.max(-ACTION_W, Math.min(0, base + dx));
+        inner.style.transform = `translateX(${currentTranslateX}px)`;
+        if (action) {
+          const progress = Math.min(1, Math.abs(currentTranslateX) / ACTION_W);
+          action.style.opacity = progress;
+        }
+      }, { passive: false });
+
+      noteList.addEventListener('touchend', e => {
+        if (!tgt || !dragging) { tgt = null; return; }
+        const dx = e.changedTouches[0].clientX - startX;
+        inner.style.willChange = '';  // release GPU layer
+        inner.style.transition = '';
+        // Re-enable transition on action so the snap animates opacity
+        if (action) action.style.transition = 'opacity 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        if (startedOpen) {
+          if (dx > THRESHOLD) {
+            inner.style.transform = ''; inner.classList.remove('swiped');
+            wrap.classList.remove('is-open'); activeWrap = null;
+            if (action) action.style.opacity = '0';
+          } else {
+            inner.style.transform = ''; inner.classList.add('swiped');
+            activeWrap = wrap;
+            if (action) action.style.opacity = '1';
+          }
+        } else {
+          if (dx < -THRESHOLD) {
+            inner.style.transform = ''; inner.classList.add('swiped');
+            activeWrap = wrap;
+            if (action) action.style.opacity = '1';
+          } else {
+            inner.style.transform = ''; inner.classList.remove('swiped');
+            wrap.classList.remove('is-open'); activeWrap = null;
+            if (action) action.style.opacity = '0';
+          }
+        }
+        dragging = false; tgt = null; inner = null; action = null; wrap = null;
+      }, { passive: true });
+    })();
+
+    // ── Events ────────────────────────────────────────────────────────────────
+    newNoteBtn.addEventListener('click', createNote);
+    deleteBtn.addEventListener('click', removeCurrentNote);
+    backBtn.addEventListener('click', showListPanel);
+    searchInput.addEventListener('input', () => renderList(allNotes));
+
+    editor.addEventListener('input', scheduleSave);
+    editor.addEventListener('blur', () => { clearTimeout(saveTimer); saveCurrentNote(); });
+
+    document.getElementById('note-title').addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        editor.focus();
+        // Move cursor to start of editor
+        const range = document.createRange();
+        range.selectNodeContents(editor);
+        range.collapse(true);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    });
+
+    document.getElementById('note-title').addEventListener('input', scheduleSave);
+
+    document.addEventListener('keydown', e => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'n') { e.preventDefault(); createNote(); }
+    });
+
+    // ── Voice dictation ───────────────────────────────────────────────────────
+    const micBtn = document.getElementById('mic-btn');
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isRecording = false;
+
+    if (SR) {
+      recognition = new SR();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      let lastInterim = '';
+
+      recognition.onresult = e => {
+        let interim = '';
+        let final = '';
+
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          const t = e.results[i][0].transcript;
+          if (e.results[i].isFinal) final += t;
+          else interim += t;
+        }
+
+        // Remove previous interim text, insert new
+        if (lastInterim) {
+          const sel = window.getSelection();
+          if (sel.rangeCount) {
+            const range = sel.getRangeAt(0);
+            range.setStart(range.startContainer, Math.max(0, range.startOffset - lastInterim.length));
+            range.deleteContents();
+          }
+        }
+
+        const insertText = final || interim;
+        if (insertText) document.execCommand('insertText', false, insertText);
+        lastInterim = final ? '' : interim;
+
+        if (final) scheduleSave();
+      };
+
+      recognition.onend = () => {
+        isRecording = false;
+        lastInterim = '';
+        micBtn.classList.remove('recording');
+        micBtn.textContent = '🎤';
+      };
+
+      recognition.onerror = e => {
+        if (e.error !== 'aborted') console.warn('SR error:', e.error);
+        recognition.onend();
+      };
+
+      micBtn.addEventListener('click', () => {
+        if (!currentId) return;
+        if (isRecording) {
+          recognition.stop();
+        } else {
+          isRecording = true;
+          micBtn.classList.add('recording');
+          micBtn.textContent = '🔴';
+          editor.focus();
+          recognition.start();
+        }
+      });
+    } else {
+      micBtn.style.display = 'none';
+    }
+
+    // ── Theme toggle ──────────────────────────────────────────────────────────
+    const themeBtn = document.getElementById('theme-btn');
+
+    function applyTheme(theme) {
+      if (theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      themeBtn.textContent = isDark ? '☀️' : '🌙';
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      let next;
+      if (!current) {
+        next = systemDark ? 'light' : 'dark';
+      } else if (current === 'dark') {
+        next = 'light';
+      } else {
+        next = 'dark';
+      }
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    }
+
+    themeBtn.addEventListener('click', toggleTheme);
+
+    // Restore saved theme on load
+    applyTheme(localStorage.getItem('theme') || null);
+
+    // ── Face ID lock ──────────────────────────────────────────────────────────
+    lockBtn.addEventListener('click', async () => {
+      if (sessionKey) {
+        sessionKey = null;
+        decryptedCache.clear();
+        lockBtn.textContent = '🔐';
+        renderList(allNotes);
+      } else {
+        const { verified, key } = await window.lightning.auth.verify();
+        if (verified) {
+          sessionKey = key;
+          lockBtn.textContent = key ? '🔓' : '✓';
+          renderList(allNotes);
+        }
+      }
+    });
+
+    if (window.lightning && window.lightning.auth) {
+      window.lightning.auth.isAvailable().then(available => {
+        if (available) lockBtn.style.display = 'flex';
+      });
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    async function init() {
+      allNotes = await notes.find();
+      allNotes.sort((a, b) => b.updatedAt - a.updatedAt);
+      renderList(allNotes);
+      if (allNotes.length && !isMobile()) {
+        await openNote(allNotes[0].id);
+      }
+    }
+
+    init();
+
+    // ── Lightning APIs demo panel ─────────────────────────────────────────────
+    (function () {
+      'use strict';
+
+      var statusEl   = document.getElementById('lightning-demo-status');
+      var wakeBtn    = document.getElementById('demo-wake');
+      var shareBtn   = document.getElementById('demo-share');
+      var clipBtn    = document.getElementById('demo-clipboard');
+      var speakBtn   = document.getElementById('demo-speak');
+      var locationBtn= document.getElementById('demo-location');
+
+      var statusTimer = null;
+
+      function setStatus(text, type) {
+        // type: '' | 'ok' | 'err'
+        statusEl.textContent = text;
+        statusEl.className   = type || '';
+        clearTimeout(statusTimer);
+        if (text) {
+          statusTimer = setTimeout(function () {
+            statusEl.textContent = '';
+            statusEl.className   = '';
+          }, 3500);
+        }
+      }
+
+      // ── Share ──────────────────────────────────────────────────────────────
+      shareBtn.addEventListener('click', function () {
+        if (!window.lightning || !window.lightning.share) {
+          setStatus('Share API not available', 'err');
+          return;
+        }
+        if (!window.lightning.share.isAvailable()) {
+          setStatus('Web Share not supported on this device', 'err');
+          return;
+        }
+        window.lightning.share.share({
+          title: 'Notes',
+          text: 'Check out this note',
+          url: window.location.href
+        }).then(function () {
+          setStatus('Shared successfully', 'ok');
+        }).catch(function (err) {
+          if (err && err.name === 'AbortError') {
+            setStatus('Share cancelled', '');
+          } else {
+            setStatus('Share failed: ' + (err && err.message ? err.message : err), 'err');
+          }
+        });
+      });
+
+      // ── Clipboard ──────────────────────────────────────────────────────────
+      clipBtn.addEventListener('click', function () {
+        if (!window.lightning || !window.lightning.clipboard) {
+          setStatus('Clipboard API not available', 'err');
+          return;
+        }
+        window.lightning.clipboard.writeText('Hello from Lightning!').then(function () {
+          setStatus('📋 Copied!', 'ok');
+        }).catch(function (err) {
+          setStatus('Copy failed: ' + (err && err.message ? err.message : err), 'err');
+        });
+      });
+
+      // ── Wake lock ──────────────────────────────────────────────────────────
+      wakeBtn.addEventListener('click', function () {
+        if (!window.lightning || !window.lightning.wake) {
+          setStatus('Wake Lock API not available', 'err');
+          return;
+        }
+        if (!window.lightning.wake.isAvailable()) {
+          setStatus('Wake Lock not supported on this device', 'err');
+          return;
+        }
+        if (window.lightning.wake.isActive()) {
+          window.lightning.wake.unlock().then(function () {
+            wakeBtn.classList.remove('active-state');
+            setStatus('Screen lock released', 'ok');
+          }).catch(function (err) {
+            setStatus('Unlock failed: ' + (err && err.message ? err.message : err), 'err');
+          });
+        } else {
+          window.lightning.wake.lock().then(function () {
+            wakeBtn.classList.add('active-state');
+            setStatus('Screen will stay awake', 'ok');
+          }).catch(function (err) {
+            setStatus('Wake lock failed: ' + (err && err.message ? err.message : err), 'err');
+          });
+        }
+      });
+
+      // ── Speech synthesis ───────────────────────────────────────────────────
+      speakBtn.addEventListener('click', function () {
+        if (!window.lightning || !window.lightning.speech || !window.lightning.speech.synthesis) {
+          setStatus('Speech API not available', 'err');
+          return;
+        }
+        if (!window.lightning.speech.synthesis.isAvailable()) {
+          setStatus('Speech synthesis not supported on this device', 'err');
+          return;
+        }
+        // If already speaking, cancel
+        if (speakBtn.dataset.speaking) {
+          window.lightning.speech.synthesis.cancel();
+          speakBtn.classList.remove('active-state');
+          delete speakBtn.dataset.speaking;
+          setStatus('Stopped', '');
+          return;
+        }
+        var text = editor.innerText.trim() || 'No note selected. Try opening a note first.';
+        speakBtn.classList.add('active-state');
+        speakBtn.dataset.speaking = '1';
+        setStatus('🔊 Speaking…', 'ok');
+        window.lightning.speech.synthesis.speak(text, { rate: 1.0 }).then(function () {
+          speakBtn.classList.remove('active-state');
+          delete speakBtn.dataset.speaking;
+          setStatus('Done speaking', 'ok');
+        }).catch(function (err) {
+          speakBtn.classList.remove('active-state');
+          delete speakBtn.dataset.speaking;
+          if (err && err.message && err.message !== 'interrupted') {
+            setStatus('Speech error: ' + err.message, 'err');
+          } else {
+            setStatus('', '');
+          }
+        });
+      });
+
+      // ── Location ───────────────────────────────────────────────────────────
+      locationBtn.addEventListener('click', function () {
+        if (!window.lightning || !window.lightning.location) {
+          setStatus('Location API not available', 'err');
+          return;
+        }
+        if (!window.lightning.location.isAvailable()) {
+          setStatus('Geolocation not supported on this device', 'err');
+          return;
+        }
+        setStatus('Requesting location…', '');
+        window.lightning.location.getCurrentPosition({ enableHighAccuracy: false, timeout: 8000 })
+          .then(function (pos) {
+            var lat = pos.coords.latitude.toFixed(4);
+            var lon = pos.coords.longitude.toFixed(4);
+            setStatus('📍 ' + lat + ', ' + lon, 'ok');
+          })
+          .catch(function (err) {
+            setStatus('Location error: ' + (err && err.message ? err.message : err), 'err');
+          });
+      });
+    })();
+  </script>
+</body>
+</html>

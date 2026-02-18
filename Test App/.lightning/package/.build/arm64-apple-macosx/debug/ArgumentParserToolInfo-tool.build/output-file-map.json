@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/master.swiftdeps"
+  },
+  "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/checkouts/swift-argument-parser/Sources/ArgumentParserToolInfo/ToolInfo.swift": {
+    "dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo.d",
+    "object": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo.swift.o",
+    "swiftmodule": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo~partial.swiftmodule",
+    "swift-dependencies": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo.swiftdeps",
+    "diagnostics": "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo.dia"
+  }
+}

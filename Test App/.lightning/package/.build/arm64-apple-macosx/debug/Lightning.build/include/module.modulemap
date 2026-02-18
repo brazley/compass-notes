@@ -1,0 +1,3 @@
+module Lightning {
+    header "/Users/quikolas/github/Compass/Compass Native/Test App/.lightning/package/.build/arm64-apple-macosx/debug/Lightning.build/include/Lightning-Swift.h"
+}
