@@ -743,14 +743,14 @@
 
     async function initStorage() {
       if (!window.lightning || !window.lightning.storage || !window.lightning.storage.isAvailable()) {
-        // Fallback to lightning.data if File System API not available
         return null;
       }
       try {
-        storageDir = await window.lightning.storage.ensureDirectory('Notes data folder');
+        // Only restore a previously-chosen handle — never show picker on load
+        storageDir = await window.lightning.storage.getDirectory();
         return storageDir;
       } catch(e) {
-        console.warn('Storage init failed, falling back to IndexedDB', e);
+        console.warn('Storage restore failed, falling back to IndexedDB', e);
         return null;
       }
     }
@@ -1021,6 +1021,17 @@
 
     // ── New note ──────────────────────────────────────────────────────────────
     async function createNote() {
+      // First note creation: if storage available but no folder chosen yet, prompt now
+      // (showDirectoryPicker requires a user gesture — this click qualifies)
+      if (!storageDir && window.lightning && window.lightning.storage && window.lightning.storage.isAvailable()) {
+        try {
+          storageDir = await window.lightning.storage.selectDirectory();
+          saveIndicator.textContent = '📁 Saving to Documents/Notes';
+          setTimeout(() => { saveIndicator.textContent = ''; }, 3000);
+        } catch(e) {
+          // User cancelled or dismissed — fall through to IndexedDB
+        }
+      }
       const note = await notes.insert({ title: '', body: '', locked: !!sessionKey, updatedAt: Date.now() });
       allNotes.push(note);
       renderList(allNotes);
@@ -1324,17 +1335,6 @@
     async function init() {
       // Init storage before loading notes
       await initStorage();
-
-      if (storageDir) {
-        // Show where data is stored — only on first time (not on every launch)
-        const shownKey = 'lightning-storage-shown';
-        if (!localStorage.getItem(shownKey)) {
-          localStorage.setItem(shownKey, '1');
-          // Show brief info in the existing save indicator
-          saveIndicator.textContent = '📁 Saving to Documents/Notes';
-          setTimeout(() => { saveIndicator.textContent = ''; }, 3000);
-        }
-      }
 
       allNotes = await notes.find();
       allNotes.sort((a, b) => b.updatedAt - a.updatedAt);
