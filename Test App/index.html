@@ -724,6 +724,7 @@
             <button class="demo-btn" id="demo-wake"      title="Toggle wake lock">💡</button>
             <button class="demo-btn" id="demo-speak"     title="Speak note text">🔊</button>
             <button class="demo-btn" id="demo-location"  title="Get location">📍</button>
+            <button class="demo-btn" id="demo-pay"       title="Payment API">💳</button>
           </div>
           <div id="lightning-demo-status"></div>
         </div>
@@ -1414,6 +1415,19 @@
             setStatus('Location error: ' + (err && err.message ? err.message : err), 'err');
           });
       });
+
+      // ── Payments ───────────────────────────────────────────────────────────
+      var payBtn = document.getElementById('demo-pay');
+
+      function demoPayment() {
+        if (window.lightning && window.lightning.payments) {
+          setStatus('window.lightning.payments ✓ — integrate with your Stripe backend', 'ok');
+        } else {
+          setStatus('payments API not available', 'err');
+        }
+      }
+
+      payBtn.addEventListener('click', demoPayment);
     })();
   </script>
 </body>

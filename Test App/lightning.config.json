@@ -2,6 +2,18 @@
   "name": "Notes",
   "version": "1.0.0",
   "entry": "index.html",
+  "capabilities": [
+    "camera",
+    "microphone",
+    "speech",
+    "faceid",
+    "location",
+    "notifications",
+    "clipboard",
+    "wake-lock",
+    "motion",
+    "payments"
+  ],
   "window": {
     "width": 1100,
     "height": 740,
