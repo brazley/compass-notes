@@ -737,8 +737,74 @@
   </div>
 
   <script>
-    // ── Data Layer (window.lightning.data) ────────────────────────────────────
-    const notes = window.lightning.data.collection('notes');
+    // ── Storage Setup ─────────────────────────────────────────────────────────
+
+    let storageDir = null; // FileSystemDirectoryHandle | null
+
+    async function initStorage() {
+      if (!window.lightning || !window.lightning.storage || !window.lightning.storage.isAvailable()) {
+        // Fallback to lightning.data if File System API not available
+        return null;
+      }
+      try {
+        storageDir = await window.lightning.storage.ensureDirectory('Notes data folder');
+        return storageDir;
+      } catch(e) {
+        console.warn('Storage init failed, falling back to IndexedDB', e);
+        return null;
+      }
+    }
+
+    // ── Data Layer ─────────────────────────────────────────────────────────────
+    // File System backed when available, IndexedDB fallback
+
+    const notes = (() => {
+      // Filesystem implementation
+      const fs = {
+        async find() {
+          if (!storageDir) return legacyNotes.find();
+          const files = await window.lightning.storage.listFiles(storageDir);
+          const noteFiles = files.filter(f => f.startsWith('note-') && f.endsWith('.json'));
+          const results = [];
+          for (const filename of noteFiles) {
+            const note = await window.lightning.storage.readJSON(storageDir, filename);
+            if (note) results.push(note);
+          }
+          return results;
+        },
+
+        async findById(id) {
+          if (!storageDir) return legacyNotes.findById(id);
+          return window.lightning.storage.readJSON(storageDir, `note-${id}.json`);
+        },
+
+        async insert(data) {
+          if (!storageDir) return legacyNotes.insert(data);
+          const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+          const note = { ...data, id };
+          await window.lightning.storage.writeJSON(storageDir, `note-${id}.json`, note);
+          return note;
+        },
+
+        async update(id, data) {
+          if (!storageDir) return legacyNotes.update(id, data);
+          const existing = await this.findById(id) || { id };
+          const updated = { ...existing, ...data, id };
+          await window.lightning.storage.writeJSON(storageDir, `note-${id}.json`, updated);
+          return updated;
+        },
+
+        async delete(id) {
+          if (!storageDir) return legacyNotes.delete(id);
+          await window.lightning.storage.deleteFile(storageDir, `note-${id}.json`);
+        }
+      };
+
+      return fs;
+    })();
+
+    // Legacy IndexedDB fallback (keeps working if File System API unavailable)
+    const legacyNotes = window.lightning.data.collection('notes');
 
     // ── State ─────────────────────────────────────────────────────────────────
     let currentId  = null;
@@ -1256,6 +1322,20 @@
 
     // ── Init ──────────────────────────────────────────────────────────────────
     async function init() {
+      // Init storage before loading notes
+      await initStorage();
+
+      if (storageDir) {
+        // Show where data is stored — only on first time (not on every launch)
+        const shownKey = 'lightning-storage-shown';
+        if (!localStorage.getItem(shownKey)) {
+          localStorage.setItem(shownKey, '1');
+          // Show brief info in the existing save indicator
+          saveIndicator.textContent = '📁 Saving to Documents/Notes';
+          setTimeout(() => { saveIndicator.textContent = ''; }, 3000);
+        }
+      }
+
       allNotes = await notes.find();
       allNotes.sort((a, b) => b.updatedAt - a.updatedAt);
       renderList(allNotes);

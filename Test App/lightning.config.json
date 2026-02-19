@@ -2,6 +2,10 @@
   "name": "Notes",
   "version": "1.0.0",
   "entry": "index.html",
+  "storage": {
+    "type": "filesystem",
+    "defaultPath": "~/Documents/Notes"
+  },
   "capabilities": [
     "camera",
     "microphone",
